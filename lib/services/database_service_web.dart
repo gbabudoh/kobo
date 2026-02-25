@@ -11,7 +11,7 @@ class DatabaseServiceWeb implements DatabaseService {
   Future<User?> login(String koboId, String pin) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/auth/login'),
+        Uri.parse('https://api.egobas.com/auth/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'koboId': koboId, 'pin': pin}),
       );
@@ -43,7 +43,7 @@ class DatabaseServiceWeb implements DatabaseService {
   Future<bool> registerUser(User user) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/auth/register'),
+        Uri.parse('https://api.egobas.com/auth/register'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'koboId': user.koboId,
@@ -87,7 +87,7 @@ class DatabaseServiceWeb implements DatabaseService {
       if (tier != null) queryParams['tier'] = tier;
       if (role != null) queryParams['role'] = role;
 
-      final uri = Uri.parse('http://localhost:3000/admin/users').replace(queryParameters: queryParams);
+      final uri = Uri.parse('https://api.egobas.com/admin/users').replace(queryParameters: queryParams);
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -104,7 +104,7 @@ class DatabaseServiceWeb implements DatabaseService {
   Future<bool> resetUserPin(String koboId, String newPin) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/admin/users/reset-pin'),
+        Uri.parse('https://api.egobas.com/admin/users/reset-pin'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'koboId': koboId, 'newPin': newPin}),
       );
@@ -119,7 +119,7 @@ class DatabaseServiceWeb implements DatabaseService {
   Future<bool> terminateUser(String koboId) async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/admin/users/terminate'),
+        Uri.parse('https://api.egobas.com/admin/users/terminate'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'koboId': koboId}),
       );
@@ -132,7 +132,7 @@ class DatabaseServiceWeb implements DatabaseService {
 
   @override
   Future<Map<String, dynamic>> fetchDetailedAnalytics() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/admin/analytics'));
+    final response = await http.get(Uri.parse('https://api.egobas.com/admin/analytics'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     }
@@ -142,7 +142,7 @@ class DatabaseServiceWeb implements DatabaseService {
   @override
   Future<Map<String, dynamic>> fetchAnalyticsV2() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/admin/analytics/v2'));
+      final response = await http.get(Uri.parse('https://api.egobas.com/admin/analytics/v2'));
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }
@@ -155,7 +155,7 @@ class DatabaseServiceWeb implements DatabaseService {
 
   @override
   Future<Map<String, dynamic>> fetchUserDetails(String koboId) async {
-    final response = await http.get(Uri.parse('http://localhost:3000/admin/users/$koboId/details'));
+    final response = await http.get(Uri.parse('https://api.egobas.com/admin/users/$koboId/details'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
     }
@@ -165,7 +165,7 @@ class DatabaseServiceWeb implements DatabaseService {
   @override
   Future<List<Map<String, dynamic>>> fetchUserLoginHistory(String koboId) async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/admin/users/$koboId/login-history'));
+      final response = await http.get(Uri.parse('https://api.egobas.com/admin/users/$koboId/login-history'));
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         return data.cast<Map<String, dynamic>>();
@@ -180,7 +180,7 @@ class DatabaseServiceWeb implements DatabaseService {
   @override
   Future<bool> updateUserRole(String koboId, String role) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/admin/users/update-role'),
+      Uri.parse('https://api.egobas.com/admin/users/update-role'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'koboId': koboId, 'role': role}),
     );
@@ -190,7 +190,7 @@ class DatabaseServiceWeb implements DatabaseService {
   @override
   Future<bool> toggleUserPro(String koboId, bool isPro) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/admin/users/toggle-pro'),
+      Uri.parse('https://api.egobas.com/admin/users/toggle-pro'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'koboId': koboId, 'isPro': isPro}),
     );

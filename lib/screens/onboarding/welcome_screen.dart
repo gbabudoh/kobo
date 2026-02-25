@@ -86,17 +86,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     await StorageService.saveUser(user);
     
     // Sync with backend
+    bool syncSuccess = false;
+    String errorMessage = '';
     try {
-      final success = await DatabaseService().registerUser(user);
-      if (!success) {
+      syncSuccess = await DatabaseService().registerUser(user);
+      if (!syncSuccess) {
+        errorMessage = 'Could not sync with server. Your data is saved locally.';
         debugPrint('Failed to sync user with backend');
-        // We still proceed since it's saved locally, but ideally we'd want to retry or alert
       }
     } catch (e) {
+      errorMessage = 'Network error: $e';
       debugPrint('Error syncing user: $e');
     }
 
     if (mounted) {
+      // Show sync status
+      if (!syncSuccess && errorMessage.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.orange,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+      
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const HomeScreen()),
         (route) => false,

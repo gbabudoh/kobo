@@ -88,7 +88,7 @@ class StorageService {
   static bool getIsPro() => _prefs?.getBool(_isProKey) ?? false;
   static Future<void> setIsPro(bool value) async => await _prefs?.setBool(_isProKey, value);
 
-  static String getVpsUrl() => _prefs?.getString(_vpsUrlKey) ?? 'http://109.205.181.195:3000';
+  static String getVpsUrl() => _prefs?.getString(_vpsUrlKey) ?? 'https://api.egobas.com';
   static Future<void> setVpsUrl(String url) async => await _prefs?.setString(_vpsUrlKey, url);
 
   static Map<String, String>? getBankDetails() {
