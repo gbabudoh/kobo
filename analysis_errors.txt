@@ -1,0 +1,55 @@
+Analyzing kobo...                                               
+
+warning • Unused import: 'screens/home_screen.dart' • lib/main.dart:4:8 • unused_import
+   info • Don't invoke 'print' in production code • lib/screens/admin_dashboard_screen.dart:48:7 • avoid_print
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre • lib/screens/admin_dashboard_screen.dart:437:17 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre • lib/screens/admin_dashboard_screen.dart:438:17 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:441:35 • use_build_context_synchronously
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre • lib/screens/admin_dashboard_screen.dart:451:17 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre • lib/screens/admin_dashboard_screen.dart:452:17 • deprecated_member_use
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:455:35 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:486:33 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:487:40 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:513:31 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/screens/admin_dashboard_screen.dart:515:38 • use_build_context_synchronously
+warning • Unused import: '../models/user.dart' • lib/screens/admin_login_screen.dart:3:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/screens/admin_login_screen.dart:87:37 • deprecated_member_use
+warning • The declaration '_isSameDay' isn't referenced • lib/screens/home_tab.dart:34:8 • unused_element
+warning • The value of the local variable 'now' isn't used • lib/screens/home_tab.dart:39:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/screens/home_tab.dart:157:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/screens/home_tab.dart:169:56 • deprecated_member_use
+   info • Statements in a for should be enclosed in a block • lib/screens/login_screen.dart:31:36 • curly_braces_in_flow_control_structures
+   info • Statements in a for should be enclosed in a block • lib/screens/login_screen.dart:32:35 • curly_braces_in_flow_control_structures
+   info • Don't invoke 'print' in production code • lib/screens/login_screen.dart:92:5 • avoid_print
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/screens/onboarding/signup_screen.dart:175:19 • deprecated_member_use
+   info • Statements in a for should be enclosed in a block • lib/screens/onboarding_screen.dart:57:42 • curly_braces_in_flow_control_structures
+   info • Statements in a for should be enclosed in a block • lib/screens/onboarding_screen.dart:58:41 • curly_braces_in_flow_control_structures
+   info • Statements in a for should be enclosed in a block • lib/screens/onboarding_screen.dart:59:44 • curly_braces_in_flow_control_structures
+   info • Statements in a for should be enclosed in a block • lib/screens/onboarding_screen.dart:60:42 • curly_braces_in_flow_control_structures
+  error • The method 'saveProfile' isn't defined for the type 'StorageService' • lib/screens/onboarding_screen.dart:98:26 • undefined_method
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:33:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:65:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:83:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:98:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:121:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:159:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:189:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:204:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_mobile.dart:219:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_web.dart:36:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_web.dart:56:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_web.dart:71:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service_web.dart:86:7 • avoid_print
+  error • Undefined class 'UserProfile' • lib/services/storage_service.dart:38:10 • undefined_class
+  error • The method 'UserProfile' isn't defined for the type 'StorageService' • lib/services/storage_service.dart:41:12 • undefined_method
+  error • Undefined class '_BoxSettings' • lib/services/storage_service.dart:87:10 • undefined_class
+  error • The method '_BoxSettings' isn't defined for the type 'StorageService' • lib/services/storage_service.dart:87:42 • undefined_method
+warning • The value of the field '_publicKey' isn't used • lib/services/subscription_service.dart:12:23 • unused_field
+  error • The argument type 'int' can't be assigned to the parameter type 'double'.  • lib/services/subscription_service.dart:62:17 • argument_type_not_assignable
+   info • Don't use 'BuildContext's across async gaps • lib/services/subscription_service.dart:77:9 • use_build_context_synchronously
+  error • This expression has a type of 'void' so its value can't be used • lib/services/subscription_service.dart:83:20 • use_of_void_result
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/widgets/add_item_modal.dart:184:15 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/admin_widgets.dart:23:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/admin_widgets.dart:73:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/admin_widgets.dart:85:28 • deprecated_member_use
+
