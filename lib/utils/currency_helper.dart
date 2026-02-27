@@ -5,25 +5,18 @@ class CurrencyHelper {
     'Nigeria': '₦',
     'Ghana': 'GH₵',
     'South Africa': 'R',
-    'Liberia': 'L\$', 
+    'Liberia': 'L\$',
     'Tanzania': 'TSh',
     'Zambia': 'ZK',
     'Namibia': 'N\$',
   };
 
-  // Monthly subscription prices centered around 1000 NGN
-  static const Map<String, int> _subscriptionPrices = {
-    'Nigeria': 1000,
-    'Ghana': 40,
-    'South Africa': 15,
-    'Liberia': 150,
-    'Tanzania': 1800,
-    'Zambia': 15,
-    'Namibia': 15,
-  };
+  // Annual subscription price - Nigeria only for now
+  static const int subscriptionPriceNGN = 5000; // ₦5,000/year
 
   static int getSubscriptionPrice(String country) {
-    return _subscriptionPrices[country] ?? 1000;
+    // For now, Nigeria only at ₦5,000/year
+    return subscriptionPriceNGN;
   }
 
   static String getCurrencySymbol(String country) {

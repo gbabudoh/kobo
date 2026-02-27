@@ -3,8 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/user.dart';
+import '../models/sale.dart';
 import '../services/storage_service.dart';
 import 'login_screen.dart';
+import 'payment_methods_screen.dart';
+import 'kobo_vault_screen.dart';
 import '../widgets/subscription_modal.dart'; // Add this import
 
 class ProfileScreen extends StatefulWidget {
@@ -17,11 +20,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   User? _user;
   bool _isLoading = true;
+  List<Sale> _sales = [];
 
   @override
   void initState() {
     super.initState();
     _loadUser();
+    _loadSales();
   }
 
   Future<void> _loadUser() async {
@@ -30,6 +35,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         _user = user;
         _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadSales() async {
+    final sales = await StorageService.getSales();
+    if (mounted) {
+      setState(() {
+        _sales = sales;
       });
     }
   }
@@ -219,6 +233,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       const SizedBox(height: 24),
 
+                      // Pro Features Section (only show if user is Pro)
+                      if (_user?.subscriptionStatus == 'pro') ...[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 20,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                                child: Row(
+                                  children: [
+                                    const Icon(LucideIcons.crown, size: 18, color: Color(0xFFf1c40f)),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Pro Features',
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFF1E293B),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              _buildProFeatureTile(
+                                icon: LucideIcons.creditCard,
+                                label: 'Payment Methods',
+                                subtitle: 'Setup Paystack, OPay, Bank Transfer',
+                                color: const Color(0xFF3498db),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const PaymentMethodsScreen()),
+                                  );
+                                },
+                              ),
+                              const Divider(height: 1),
+                              _buildProFeatureTile(
+                                icon: LucideIcons.fileText,
+                                label: 'KOBO-Vault',
+                                subtitle: 'Download trade history for loans',
+                                color: const Color(0xFF9b59b6),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => KoboVaultScreen(sales: _sales)),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                      ],
+
                       // Account Details Card
                       Container(
                         decoration: BoxDecoration(
@@ -358,6 +437,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProFeatureTile({
+    required IconData icon,
+    required String label,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, size: 20, color: color),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: GoogleFonts.outfit(
+                      fontSize: 16,
+                      color: const Color(0xFF1E293B),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: const Color(0xFF64748B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFF94A3B8)),
+          ],
+        ),
       ),
     );
   }

@@ -46,6 +46,9 @@ dependencies:
   postgres: ^3.5.9
   flutter_paystack_max: ^1.0.3
   fl_chart: ^1.1.1
+  pdf: ^3.11.1
+  path_provider: ^2.1.5
+  share_plus: ^10.1.4
 
 dev_dependencies:
   flutter_test:

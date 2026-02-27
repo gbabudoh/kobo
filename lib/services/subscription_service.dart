@@ -8,7 +8,12 @@ import 'api_service.dart';
 class SubscriptionService {
   static const int trialDays = 30;
   
-  // Paystack Public Key (Placeholder - User should update this)
+  // ============================================
+  // PAYSTACK KEYS - REPLACE WITH YOUR KEYS
+  // ============================================
+  static const String paystackPublicKey = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+  static const String paystackSecretKey = 'sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+  // ============================================
 
   /// Returns true if the user has an active Pro subscription or is within their trial period.
   static bool get isPro {
@@ -36,7 +41,7 @@ class SubscriptionService {
 
   static String get statusText {
     if (StorageService.getIsPro()) {
-      return 'Kobbo Pro Active';
+      return 'KOBO Pro Active';
     }
     
     final remaining = trialDaysRemaining;
@@ -44,7 +49,7 @@ class SubscriptionService {
       return 'Trial: $remaining days left';
     }
     
-    return 'Trial Expired (Kobbo Free)';
+    return 'Trial Expired';
   }
 
   /// Processes payment via Paystack and activates Pro status
@@ -55,12 +60,17 @@ class SubscriptionService {
   }) async {
     try {
       final request = PaystackTransactionRequest(
-        reference: 'KB_${DateTime.now().millisecondsSinceEpoch}',
-        secretKey: 'sk_test_placeholder', // Should be server-side for real apps
+        reference: 'KOBO_${DateTime.now().millisecondsSinceEpoch}',
+        secretKey: paystackSecretKey,
         email: email,
-        amount: (amount * 100).toDouble(), // Analyzer says double is expected
-        currency: currency == 'NGN' ? PaystackCurrency.ngn : PaystackCurrency.ghs, 
-        channel: [PaystackPaymentChannel.card, PaystackPaymentChannel.bank],
+        amount: (amount * 100).toDouble(), // Paystack expects kobo (amount * 100)
+        currency: PaystackCurrency.ngn,
+        channel: [
+          PaystackPaymentChannel.card, 
+          PaystackPaymentChannel.bank,
+          PaystackPaymentChannel.ussd,
+          PaystackPaymentChannel.bankTransfer,
+        ],
       );
 
       // 1. Initialize the transaction
@@ -77,12 +87,12 @@ class SubscriptionService {
       await PaymentService.showPaymentModal(
         context,
         transaction: initializedTransaction,
-        callbackUrl: 'https://standard.paystack.co/close', 
+        callbackUrl: 'https://kobo.app/payment/callback',
       );
 
-      // 3. Verify status manually since modal returns void
+      // 3. Verify status
       final verification = await PaymentService.verifyTransaction(
-        paystackSecretKey: 'sk_test_placeholder',
+        paystackSecretKey: paystackSecretKey,
         initializedTransaction.data?.reference ?? request.reference,
       );
 
@@ -102,18 +112,23 @@ class SubscriptionService {
     final profile = StorageService.getUserProfile();
     if (profile != null) {
       try {
-        // 1. Update Backend
+        // Update Backend
         await http.post(
           Uri.parse('${ApiService.baseUrl}/subscription/activate'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'koboId': profile.id}),
+          body: jsonEncode({
+            'koboId': profile.id,
+            'plan': 'pro_annual',
+            'amount': 5000,
+            'currency': 'NGN',
+          }),
         );
       } catch (e) {
         debugPrint('Backend activation error: $e');
       }
     }
 
-    // 2. Persist Locally
+    // Persist Locally
     await StorageService.setIsPro(true);
   }
 }
