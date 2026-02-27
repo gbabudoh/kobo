@@ -114,8 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Items',
             ),
             BottomNavigationBarItem(
-              icon: Icon(LucideIcons.receipt, size: 22),
-              activeIcon: Icon(LucideIcons.receipt, size: 24),
+              icon: Icon(LucideIcons.clipboardList, size: 22),
+              activeIcon: Icon(LucideIcons.clipboardList, size: 24),
               label: 'Sales',
             ),
             BottomNavigationBarItem(
