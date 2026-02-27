@@ -37,6 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _cancelLogin() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const IntroScreen()),
+      (route) => false,
+    );
+  }
+
   void _login() async {
     setState(() {
       _isLoading = true;
@@ -133,6 +140,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Color(0xFF7f8c8d)),
+          onPressed: _cancelLogin,
+        ),
+      ),
       body: Stack(
         children: [
            Positioned(

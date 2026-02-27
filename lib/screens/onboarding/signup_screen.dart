@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'business_type_screen.dart';
+import 'intro_screen.dart';
 import '../../widgets/kobo_logo.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -52,6 +53,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
       node.dispose();
     }
     super.dispose();
+  }
+
+  void _cancelRegistration() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cancel Registration?'),
+        content: const Text('Are you sure you want to cancel? You can register later.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Continue'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const IntroScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   void _handleNext() {
@@ -131,7 +158,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const SizedBox(),
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Color(0xFF7f8c8d)),
+          onPressed: _cancelRegistration,
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

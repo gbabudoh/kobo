@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'welcome_screen.dart';
+import 'intro_screen.dart';
 
 class BusinessTypeScreen extends StatefulWidget {
   final String country;
@@ -24,6 +25,32 @@ class BusinessTypeScreen extends StatefulWidget {
 class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
   String? _selectedPrimary;
   String? _selectedSub;
+
+  void _cancelRegistration() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cancel Registration?'),
+        content: const Text('Are you sure you want to cancel? You can register later.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Continue'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const IntroScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
 
   final Map<String, Map<String, dynamic>> _categories = {
     'Food & Beverage': {
@@ -107,6 +134,12 @@ class _BusinessTypeScreenState extends State<BusinessTypeScreen> {
           icon: const Icon(Icons.arrow_back, color: Color(0xFF2c3e50)),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close, color: Color(0xFF7f8c8d)),
+            onPressed: _cancelRegistration,
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
