@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../models/item.dart';
 import '../models/sale.dart';
-
-import '../models/user.dart'; // Add this
+import '../models/user.dart';
 import '../utils/currency_helper.dart';
 
 class SellModal extends StatefulWidget {
@@ -53,7 +51,7 @@ class _SellModalState extends State<SellModal> {
       itemName: widget.item.name,
       quantity: quantity,
       total: widget.item.price * quantity,
-      time: DateFormat('h:mm a').format(DateTime.now()),
+      dateTime: DateTime.now(),
     );
 
     widget.onSell(sale);

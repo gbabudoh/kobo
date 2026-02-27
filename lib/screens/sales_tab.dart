@@ -15,7 +15,9 @@ class SalesTab extends StatelessWidget {
     return CurrencyHelper.format(amount, user!.country);
   }
 
-  int get todaySales => sales.fold(0, (sum, sale) => sum + sale.total);
+  // Only count today's sales for the total
+  int get todaySales => sales.where((s) => s.isToday).fold(0, (sum, sale) => sum + sale.total);
+  int get todayTransactions => sales.where((s) => s.isToday).length;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class SalesTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${sales.length} transactions',
+                  '$todayTransactions transactions',
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 13,
@@ -106,26 +108,28 @@ class SalesTab extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      sale.itemName,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2c3e50),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        sale.itemName,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF2c3e50),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Qty: ${sale.quantity} • ${sale.time}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF95a5a6),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Qty: ${sale.quantity} • ${sale.dateString} • ${sale.timeString}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF95a5a6),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Text(
                   _formatCurrency(sale.total),

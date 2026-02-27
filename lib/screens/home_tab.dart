@@ -24,7 +24,8 @@ class HomeTab extends StatelessWidget {
     )}';
   }
 
-  int get todaySales => sales.fold(0, (sum, sale) => sum + sale.total);
+  // Only count today's sales
+  int get todaySales => sales.where((s) => s.isToday).fold(0, (sum, sale) => sum + sale.total);
   // Only count products (not services) for total items
   int get totalItems => items.where((item) => !item.isService).fold(0, (sum, item) => sum + item.quantity);
   // Only show low stock for products (services don't track stock)
@@ -257,7 +258,7 @@ class HomeTab extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'x${sale.quantity} • ${sale.time}',
+                            'x${sale.quantity} • ${sale.timeString}',
                             style: const TextStyle(fontSize: 12, color: Color(0xFF95a5a6)),
                           ),
                         ],
