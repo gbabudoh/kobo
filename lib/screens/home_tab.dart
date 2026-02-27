@@ -149,10 +149,16 @@ class HomeTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Quick Sell Section
-                const Text(
-                  'Quick Sell',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2c3e50)),
+                // My Products / Services Section
+                Row(
+                  children: [
+                    const Text(
+                      'My Products / Services',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2c3e50)),
+                    ),
+                    const Spacer(),
+                    Icon(LucideIcons.shoppingBag, size: 18, color: const Color(0xFF27ae60)),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 GridView.builder(
@@ -237,10 +243,16 @@ class HomeTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Recent Sales
-                const Text(
-                  'Recent Sales',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2c3e50)),
+                // Just Sold Section
+                Row(
+                  children: [
+                    const Text(
+                      'Just Sold',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2c3e50)),
+                    ),
+                    const Spacer(),
+                    Icon(LucideIcons.checkCircle, size: 18, color: const Color(0xFF27ae60)),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 ...sales.take(3).map((sale) => Container(
