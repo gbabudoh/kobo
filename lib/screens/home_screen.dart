@@ -18,19 +18,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   
-  final List<Item> items = [
-    Item(id: 1, name: 'Tomatoes (basket)', price: 2500, quantity: 15, category: 'produce'),
-    Item(id: 2, name: 'Palm Oil (4L)', price: 4500, quantity: 8, category: 'groceries'),
-    Item(id: 3, name: 'Garri (paint)', price: 1800, quantity: 20, category: 'groceries'),
-    Item(id: 4, name: 'Pepper (bag)', price: 3000, quantity: 12, category: 'produce'),
-    Item(id: 5, name: 'Onions (basket)', price: 2000, quantity: 10, category: 'produce'),
-  ];
+  final List<Item> items = [];
 
-  final List<Sale> sales = [
-    Sale(id: 1, itemId: 1, itemName: 'Tomatoes (basket)', quantity: 2, total: 5000, time: '9:30 AM'),
-    Sale(id: 2, itemId: 3, itemName: 'Garri (paint)', quantity: 3, total: 5400, time: '10:15 AM'),
-    Sale(id: 3, itemId: 2, itemName: 'Palm Oil (4L)', quantity: 1, total: 4500, time: '11:00 AM'),
-  ];
+  final List<Sale> sales = [];
 
   void addSale(Sale sale) {
     setState(() {

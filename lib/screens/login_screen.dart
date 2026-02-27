@@ -380,28 +380,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                         ),
                     ).animate().fadeIn(delay: 500.ms).slideY(begin: 0.2, end: 0),
-
-                    const SizedBox(height: 24),
-                    
-                    TextButton(
-                      onPressed: () async {
-                        await StorageService.clearUser();
-                        if (context.mounted) {
-                          Navigator.of(context).pushReplacement(
-                             MaterialPageRoute(
-                               builder: (_) => const IntroScreen(),
-                             ), 
-                          );
-                        }
-                      }, 
-                      child: Text(
-                        "Reset App (Debug)",
-                        style: GoogleFonts.inter(
-                          color: Colors.red.withOpacity(0.6),
-                          fontSize: 12,
-                        ),
-                      )
-                    ),
                   ],
                 ),
               ),
