@@ -44,7 +44,6 @@ class HomeTab extends StatelessWidget {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: EdgeInsets.zero,

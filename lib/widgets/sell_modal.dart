@@ -26,6 +26,7 @@ class SellModal extends StatefulWidget {
 
 class _SellModalState extends State<SellModal> {
   int quantity = 1;
+  bool _isSubmitting = false; // Prevent double-tap
 
   String _formatCurrency(int amount) {
     if (widget.user == null) return '₦${amount.toString()}';
@@ -33,6 +34,9 @@ class _SellModalState extends State<SellModal> {
   }
 
   void _handleSell() {
+    // Prevent double-tap
+    if (_isSubmitting) return;
+    
     // For services, no quantity limit check (unlimited)
     if (!widget.item.isService && (quantity < 1 || quantity > widget.item.quantity)) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -40,6 +44,8 @@ class _SellModalState extends State<SellModal> {
       );
       return;
     }
+
+    setState(() => _isSubmitting = true);
 
     final sale = Sale(
       id: DateTime.now().millisecondsSinceEpoch,
@@ -276,7 +282,7 @@ class _SellModalState extends State<SellModal> {
               const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: _handleSell,
+                  onPressed: _isSubmitting ? null : _handleSell,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF27ae60),
                     foregroundColor: Colors.white,
@@ -285,10 +291,11 @@ class _SellModalState extends State<SellModal> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
+                    disabledBackgroundColor: const Color(0xFF27ae60).withOpacity(0.5),
                   ),
-                  child: const Text(
-                    'Confirm Sale ✓',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  child: Text(
+                    _isSubmitting ? 'Recording...' : 'Confirm Sale ✓',
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
