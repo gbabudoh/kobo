@@ -250,11 +250,6 @@ class HomeTab extends StatelessWidget {
                       'Just Sold',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2c3e50)),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}',
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF95a5a6)),
-                    ),
                     const Spacer(),
                     Icon(LucideIcons.checkCircle, size: 18, color: const Color(0xFF27ae60)),
                   ],
@@ -277,23 +272,25 @@ class HomeTab extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            sale.itemName,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF2c3e50),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              sale.itemName,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2c3e50),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'x${sale.quantity} • ${sale.timeString}',
-                            style: const TextStyle(fontSize: 12, color: Color(0xFF95a5a6)),
-                          ),
-                        ],
+                            const SizedBox(height: 2),
+                            Text(
+                              'x${sale.quantity} • ${sale.dateTime.day.toString().padLeft(2, '0')}-${sale.dateTime.month.toString().padLeft(2, '0')}-${sale.dateTime.year} • ${sale.timeString}',
+                              style: const TextStyle(fontSize: 12, color: Color(0xFF95a5a6)),
+                            ),
+                          ],
+                        ),
                       ),
                       Text(
                         _formatNaira(sale.total),
