@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final sales = await StorageService.getSales();
     if (mounted) {
       setState(() {
-        _sales = sales;
+        _sales = sales.cast<Sale>();
       });
     }
   }
