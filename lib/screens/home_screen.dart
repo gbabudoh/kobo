@@ -6,6 +6,7 @@ import '../models/sale.dart';
 import 'home_tab.dart';
 import 'items_tab.dart';
 import 'sales_tab.dart';
+import 'bank_tab.dart';
 import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       HomeTab(items: items, sales: sales, onSell: addSale, onUpdateQuantity: updateItemQuantity),
       ItemsTab(items: items, onAddItem: addItem, onSell: addSale, onUpdateQuantity: updateItemQuantity),
       SalesTab(sales: sales),
+      BankTab(sales: sales),
     ];
 
     return Scaffold(
@@ -97,13 +99,30 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           selectedItemColor: const Color(0xFF27ae60),
           unselectedItemColor: const Color(0xFF7f8c8d),
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
+          selectedFontSize: 11,
+          unselectedFontSize: 11,
           type: BottomNavigationBarType.fixed,
           items: const [
-            BottomNavigationBarItem(icon: Text('🏠', style: TextStyle(fontSize: 22)), label: 'Home'),
-            BottomNavigationBarItem(icon: Text('📦', style: TextStyle(fontSize: 22)), label: 'Items'),
-            BottomNavigationBarItem(icon: Text('📊', style: TextStyle(fontSize: 22)), label: 'Sales'),
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.home, size: 22),
+              activeIcon: Icon(LucideIcons.home, size: 24),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.package, size: 22),
+              activeIcon: Icon(LucideIcons.package, size: 24),
+              label: 'Items',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.receipt, size: 22),
+              activeIcon: Icon(LucideIcons.receipt, size: 24),
+              label: 'Sales',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.landmark, size: 22),
+              activeIcon: Icon(LucideIcons.landmark, size: 24),
+              label: 'Bank',
+            ),
           ],
         ),
       ),
