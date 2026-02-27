@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/kobo_logo.dart';
+import '../widgets/daily_summary_dialog.dart';
 import '../models/item.dart';
 import '../models/sale.dart';
 import 'home_tab.dart';
@@ -22,6 +24,59 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Item> items = [];
 
   final List<Sale> sales = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkForNewDay();
+  }
+
+  Future<void> _checkForNewDay() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastOpenedDate = prefs.getString('lastOpenedDate');
+    final today = DateTime.now();
+    final todayString = '${today.year}-${today.month}-${today.day}';
+
+    if (lastOpenedDate != null && lastOpenedDate != todayString) {
+      // It's a new day - show yesterday's summary
+      final parts = lastOpenedDate.split('-');
+      if (parts.length == 3) {
+        final yesterdayDate = DateTime(
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+          int.parse(parts[2]),
+        );
+
+        // Get yesterday's sales
+        final yesterdaySales = sales.where((sale) {
+          return sale.dateTime.year == yesterdayDate.year &&
+                 sale.dateTime.month == yesterdayDate.month &&
+                 sale.dateTime.day == yesterdayDate.day;
+        }).toList();
+
+        // Show dialog after build completes
+        if (mounted) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _showDailySummary(yesterdaySales, yesterdayDate);
+          });
+        }
+      }
+    }
+
+    // Save today's date
+    await prefs.setString('lastOpenedDate', todayString);
+  }
+
+  void _showDailySummary(List<Sale> yesterdaySales, DateTime yesterdayDate) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => DailySummaryDialog(
+        yesterdaySales: yesterdaySales,
+        yesterdayDate: yesterdayDate,
+      ),
+    );
+  }
 
   void addSale(Sale sale) {
     setState(() {
