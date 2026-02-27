@@ -25,8 +25,10 @@ class HomeTab extends StatelessWidget {
   }
 
   int get todaySales => sales.fold(0, (sum, sale) => sum + sale.total);
-  int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
-  int get lowStock => items.where((item) => item.quantity <= 5).length;
+  // Only count products (not services) for total items
+  int get totalItems => items.where((item) => !item.isService).fold(0, (sum, item) => sum + item.quantity);
+  // Only show low stock for products (services don't track stock)
+  int get lowStock => items.where((item) => !item.isService && item.quantity <= 5).length;
 
   void _showSellModal(BuildContext context, Item item) {
     showModalBottomSheet(
@@ -189,10 +191,27 @@ class HomeTab extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                Text(
-                                  '${item.quantity} left',
-                                  style: const TextStyle(fontSize: 10, color: Color(0xFF95a5a6)),
-                                ),
+                              // Show "Service" for services, quantity for products
+                                item.isService
+                                    ? Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF9b59b6).withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        child: const Text(
+                                          'Service',
+                                          style: TextStyle(
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF9b59b6),
+                                          ),
+                                        ),
+                                      )
+                                    : Text(
+                                        '${item.quantity} left',
+                                        style: const TextStyle(fontSize: 10, color: Color(0xFF95a5a6)),
+                                      ),
                               ],
                             ),
                           ],

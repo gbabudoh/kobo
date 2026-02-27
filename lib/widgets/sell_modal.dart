@@ -33,7 +33,8 @@ class _SellModalState extends State<SellModal> {
   }
 
   void _handleSell() {
-    if (quantity < 1 || quantity > widget.item.quantity) {
+    // For services, no quantity limit check (unlimited)
+    if (!widget.item.isService && (quantity < 1 || quantity > widget.item.quantity)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid quantity!')),
       );
@@ -50,7 +51,10 @@ class _SellModalState extends State<SellModal> {
     );
 
     widget.onSell(sale);
-    widget.onUpdateQuantity(widget.item.id, widget.item.quantity - quantity);
+    // Only decrement quantity for products, not services
+    if (!widget.item.isService) {
+      widget.onUpdateQuantity(widget.item.id, widget.item.quantity - quantity);
+    }
     Navigator.pop(context);
   }
 
@@ -92,14 +96,37 @@ class _SellModalState extends State<SellModal> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                Text(
-                  widget.item.name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2c3e50),
-                  ),
-                  textAlign: TextAlign.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.item.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF2c3e50),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    if (widget.item.isService) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF9b59b6).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          'Service',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF9b59b6),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -112,7 +139,7 @@ class _SellModalState extends State<SellModal> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${widget.item.quantity} available',
+                  widget.item.isService ? 'Unlimited availability' : '${widget.item.quantity} available',
                   style: const TextStyle(
                     fontSize: 12,
                     color: Color(0xFF95a5a6),
@@ -164,7 +191,8 @@ class _SellModalState extends State<SellModal> {
               const SizedBox(width: 20),
               IconButton(
                 onPressed: () {
-                  if (quantity < widget.item.quantity) {
+                  // For services, no upper limit; for products, limit to available quantity
+                  if (widget.item.isService || quantity < widget.item.quantity) {
                     setState(() => quantity++);
                   }
                 },

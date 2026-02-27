@@ -143,16 +143,34 @@ class ItemsTab extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Text(
-                      '${item.quantity} in stock',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: item.quantity <= 5
-                            ? const Color(0xFFe74c3c)
-                            : const Color(0xFF2c3e50),
+                    // Show "Service" badge for services, stock count for products
+                    if (item.isService)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF9b59b6).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          '🛠️ Service',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF9b59b6),
+                          ),
+                        ),
+                      )
+                    else
+                      Text(
+                        '${item.quantity} in stock',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: item.quantity <= 5
+                              ? const Color(0xFFe74c3c)
+                              : const Color(0xFF2c3e50),
+                        ),
                       ),
-                    ),
                     const SizedBox(width: 12),
                     ElevatedButton(
                       onPressed: () => _showSellModal(context, item),
