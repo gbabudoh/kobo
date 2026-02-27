@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../models/item.dart';
 import '../models/sale.dart';
 import '../widgets/sell_modal.dart';
@@ -30,6 +31,14 @@ class HomeTab extends StatelessWidget {
   int get totalItems => items.where((item) => !item.isService).fold(0, (sum, item) => sum + item.quantity);
   // Only show low stock for products (services don't track stock)
   int get lowStock => items.where((item) => !item.isService && item.quantity <= 5).length;
+
+  // Get today's date formatted
+  String get todayDate {
+    final now = DateTime.now();
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${now.day} ${months[now.month - 1]} ${now.year}';
+  }
 
   void _showSellModal(BuildContext context, Item item) {
     showModalBottomSheet(
@@ -106,27 +115,33 @@ class HomeTab extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _StatCard(
-                        icon: '💰',
+                        icon: LucideIcons.trendingUp,
+                        iconColor: const Color(0xFF27ae60),
                         label: 'Today\'s Sales',
                         value: _formatNaira(todaySales),
+                        subtitle: todayDate,
                         color: const Color(0xFFd5f5e3),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: _StatCard(
-                        icon: '📦',
+                        icon: LucideIcons.package,
+                        iconColor: const Color(0xFFe67e22),
                         label: 'Total Items',
                         value: totalItems.toString(),
+                        subtitle: todayDate,
                         color: const Color(0xFFfdebd0),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: _StatCard(
-                        icon: '⚠️',
+                        icon: LucideIcons.alertTriangle,
+                        iconColor: const Color(0xFFe74c3c),
                         label: 'Low Stock',
                         value: '$lowStock items',
+                        subtitle: null,
                         color: const Color(0xFFfadbd8),
                       ),
                     ),
@@ -284,15 +299,19 @@ class HomeTab extends StatelessWidget {
 }
 
 class _StatCard extends StatelessWidget {
-  final String icon;
+  final IconData icon;
+  final Color iconColor;
   final String label;
   final String value;
+  final String? subtitle;
   final Color color;
 
   const _StatCard({
     required this.icon,
+    required this.iconColor,
     required this.label,
     required this.value,
+    required this.subtitle,
     required this.color,
   });
 
@@ -303,15 +322,22 @@ class _StatCard extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 20)),
-          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, size: 20, color: iconColor),
+          ),
+          const SizedBox(height: 6),
           Text(
             label,
-            style: const TextStyle(fontSize: 10, color: Color(0xFF7f8c8d)),
+            style: const TextStyle(fontSize: 9, color: Color(0xFF7f8c8d), fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -322,7 +348,7 @@ class _StatCard extends StatelessWidget {
             child: Text(
               value,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF2c3e50),
               ),
@@ -330,6 +356,18 @@ class _StatCard extends StatelessWidget {
               maxLines: 1,
             ),
           ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 2),
+            Text(
+              subtitle!,
+              style: TextStyle(
+                fontSize: 8,
+                color: iconColor.withOpacity(0.8),
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ],
       ),
     );
